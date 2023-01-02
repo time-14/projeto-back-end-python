@@ -1,3 +1,3 @@
-# Kenzie Motors
+# Kenzie Motors.
 
 ![Screenshot](DER.png)
