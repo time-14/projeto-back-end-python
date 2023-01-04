@@ -1,3 +1,7 @@
 from django.shortcuts import render
+from rest_framework import generics
+from .models import Vehicle
 
-# Create your views here.
+class VehicleView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
