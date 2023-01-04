@@ -8,5 +8,3 @@ class User(AbstractUser):
     firts_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=127, unique=True) 
-    
-    # Quando criado o app de vehicles criar a model com a foreingkey relacionando a model de user2
