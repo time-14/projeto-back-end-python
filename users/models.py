@@ -13,4 +13,9 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=127, unique=True) 
 
-    address = AddressSerialiazer()
+    address = models.OneToOneField(
+        "addresses.Address",
+        on_delete=models.CASCADE,
+        related_name="users",
+        )
+
