@@ -98,7 +98,7 @@ DATABASES = {
         'USER' : os.getenv("POSTGRES_USER"),
         'PASSWORD' : os.getenv("POSTGRES_PASSWORD"),
         'HOST': 'kenzie_motors_db',
-        'PORT': '5432'
+
     },
     "db_sqlite": {
         "ENGINE": "django.db.backends.sqlite3",
