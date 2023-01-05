@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 import dotenv
 
 dotenv.load_dotenv()
@@ -50,7 +51,8 @@ THIRD_PARTY_APPS = [
 MY_APPS = [
     "users",
     "vehicles",
-    "vehicle_info"
+    "vehicle_info",
+    "addresses",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
@@ -95,7 +97,7 @@ DATABASES = {
         'NAME': os.getenv("POSTGRES_DB"),
         'USER' : os.getenv("POSTGRES_USER"),
         'PASSWORD' : os.getenv("POSTGRES_PASSWORD"),
-        'HOST': 'kenzie_motors_db',
+        'HOST': '127.0.0.1',
         'PORT': '5432'
     },
     "db_sqlite": {

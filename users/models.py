@@ -1,6 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
 import uuid
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+from addresses.serializers import AddressSerialiazer
+
 
 class User(AbstractUser):
     id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -8,3 +12,5 @@ class User(AbstractUser):
     firts_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=127, unique=True) 
+
+    address = AddressSerialiazer()
