@@ -1,5 +1,7 @@
-from django.db import models
 import uuid
+
+from django.db import models
+
 
 class Vehicle(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
@@ -21,15 +23,15 @@ class Vehicle(models.Model):
         on_delete=models.CASCADE
     ) 
 
-class StatusMovieOrder(models.TextChoices):
+class StatusVehicleOrder(models.TextChoices):
     pendente = "pendente"
     vendido = "vendido"
     cancelado = "cancelado"
 
 
 class VehicleOrder(models.Model):
-    owner = models.ForeignKey("users.User", on_delete=models.CASCADE,related_name="owner_order")
+    owner = models.ForeignKey("vehicles.Vehicle", on_delete=models.CASCADE,related_name="owner_order")
     buyer = models.ForeignKey("users.User", on_delete=models.CASCADE,related_name="buyer_order")
     createdAt = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20,choices=StatusMovieOrder.choices, default=StatusMovieOrder.pendente)
+    status = models.CharField(max_length=20,choices=StatusVehicleOrder.choices, default=StatusVehicleOrder.pendente)
     
