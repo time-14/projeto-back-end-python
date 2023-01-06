@@ -10,8 +10,3 @@ class Vehicle_Info(models.Model):
     gas_type = models.CharField(max_length=50)
     revisions = models.BooleanField(default=False)
     last_maintance = models.DateField(null=True)
-
-    vehicle = models.OneToOneField(
-        "vehicles.Vehicle", 
-        on_delete=models.CASCADE
-    ) 

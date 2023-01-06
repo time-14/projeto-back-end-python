@@ -13,6 +13,9 @@ class VehicleView(generics.ListCreateAPIView):
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner = self.request.user)
+
 
 class VehicleDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]

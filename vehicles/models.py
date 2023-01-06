@@ -16,3 +16,7 @@ class Vehicle(models.Model):
         related_name="vehicles"
     )
 
+    vehicle_info = models.OneToOneField(
+        "vehicle_info.Vehicle_Info", 
+        on_delete=models.CASCADE
+    ) 
