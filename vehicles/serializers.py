@@ -44,8 +44,18 @@ class VehicleOrderSerializer(serializers.ModelSerializer):
         return obj.owner.owner_id
 
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> VehicleOrder:
         return VehicleOrder.objects.create(**validated_data)
+
+    
+    def update(self, instance: VehicleOrder, validated_data: dict) -> VehicleOrder:
+        for key, value in validated_data.items():
+            if key == "status":
+                setattr(instance, key, value)
+            
+        instance.save()
+
+        return instance
 
 
     class Meta:

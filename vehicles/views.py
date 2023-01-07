@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from .models import Vehicle
+from .models import Vehicle, VehicleOrder
 from .permisions import IsVehicleOwner
 from .serializers import VehicleOrderSerializer, VehicleSerializer
 
@@ -30,9 +30,11 @@ class VehicleDetailView(generics.RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = "vehicle_id"
 
 
-class VehicleOrderView(generics.ListCreateAPIView):
+class VehicleOrderView(generics.CreateAPIView):
     
     authentication_classes = [JWTAuthentication]
+
+    permission_classes = [IsAuthenticated]
 
     serializer_class = VehicleOrderSerializer
 
@@ -46,6 +48,14 @@ class VehicleOrderView(generics.ListCreateAPIView):
     
 
 
-class VehicleOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
+class VehicleOrderDetailView(generics.RetrieveUpdateAPIView):
+
     authentication_classes = [JWTAuthentication]
-    pass
+
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = VehicleOrderSerializer
+
+    queryset = VehicleOrder.objects.all()
+
+    lookup_url_kwarg = "order_id"
