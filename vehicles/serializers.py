@@ -22,6 +22,9 @@ class VehicleSerializer(serializers.ModelSerializer):
         vehicle_info, _ = Vehicle_Info.objects.get_or_create(**vehicle_info_dict)
 
         return Vehicle.objects.create(**validated_data, vehicle_info=vehicle_info)
+    
+    # def update(self, instance, validated_data):
+        
 
 
 class VehicleOrderSerializer(serializers.ModelSerializer):
