@@ -28,23 +28,40 @@ class UserSerializer(serializers.ModelSerializer):
         return user
     
     def update(sel, instance: User, validated_data: dict) -> User:
-        for key, value in validated_data.items():
-            if key == 'password':
-                instance.set_password(value)
-            else:
-                setattr(instance, key, value)
                 
-        if "address" in validated_data:
-
-            address_obj = validated_data.pop("address");
-            
-            address = Address.objects.create(**address_obj)
+        address_obj = validated_data.pop("address", None);
+        
+        if address_obj:
+    
+            address, _ = Address.objects.get_or_create(**address_obj)
             
             for key, value in address_obj.items():
                 setattr(instance, key, value)
             
-            address.save()
-            instance.address.set(address)
-        
+            instance.address = address
+            
+        for key, value in validated_data.items():
+            if key == 'password':
+                instance.set_password(value)
+            
+            else:
+                setattr(instance, key, value)
+            
         instance.save();
         return instance;
+    
+    # def update(sel, instance: User, validated_data: dict) -> User:
+    #     address_obj: dict = validated_data.pop('address', None)
+    #     if address_obj:
+    #         address, _ = Address.objects.get_or_create(**address_obj)
+    #         for key, value in address_obj.items():
+    #             setattr(address, key, value)
+    #         address.save()
+    #         instance.address = address
+    #     for key, values in validated_data.items():
+    #         if key == 'password':
+    #             instance.set_password(value)
+    #         else:
+    #             setattr(instance, key, values)
+    #     instance.save()
+    #     return instance
