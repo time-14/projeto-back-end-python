@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
+
 import os
 import dotenv
 
@@ -49,7 +51,9 @@ THIRD_PARTY_APPS = [
 
 MY_APPS = [
     "users",
-    "vehicles"
+    "vehicles",
+    "vehicle_info",
+    "addresses",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
@@ -88,20 +92,24 @@ WSGI_APPLICATION = "_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    "default" : {
-        'ENGINE' : 'django.db.backends.postgresql',
-        'NAME': os.getenv("POSTGRES_DB_NAME"),
-        'USER' : os.getenv("POSTGRES_USERNAME"),
-        'PASSWORD' : os.getenv("POSTGRES_PASSWORD"),
-        'HOST': "127.0.0.1"
-
-    },
-    "db_sqlite": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if os.getenv("abc"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        "default" : {
+            'ENGINE' : 'django.db.backends.postgresql',
+            'NAME': os.getenv("POSTGRES_DB"),
+            'USER' : os.getenv("POSTGRES_USER"),
+            'PASSWORD' : os.getenv("POSTGRES_PASSWORD"),
+            'PORT': '5432',
+            'HOST': 'localhost',
+        }
+    }
 
 
 # Password validation
@@ -121,6 +129,12 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+}
+
 
 
 # Internationalization
