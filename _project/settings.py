@@ -92,7 +92,7 @@ WSGI_APPLICATION = "_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if os.getenv("TEST"):
+if os.getenv("abc"):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -106,7 +106,8 @@ else:
             'NAME': os.getenv("POSTGRES_DB"),
             'USER' : os.getenv("POSTGRES_USER"),
             'PASSWORD' : os.getenv("POSTGRES_PASSWORD"),
-            # 'HOST': 'kenzie_motors_db',
+            'PORT': '5432',
+            'HOST': 'localhost',
         }
     }
 

@@ -5,4 +5,4 @@ from vehicles.models import Vehicle
 
 class IsVehicleOwner(permissions.BasePermission):
     def has_object_permission(self, request: Request, view: View, obj: Vehicle):
-        return request.user.is_authenticated and request.user == obj
+        return request.user.is_authenticated and request.user.id == obj.owner_id

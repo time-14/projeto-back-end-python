@@ -22,6 +22,26 @@ class VehicleSerializer(serializers.ModelSerializer):
         vehicle_info, _ = Vehicle_Info.objects.get_or_create(**vehicle_info_dict)
 
         return Vehicle.objects.create(**validated_data, vehicle_info=vehicle_info)
+    
+    def update(sel, instance: Vehicle, validated_data: dict) -> Vehicle:
+                
+        vehicle_info_obj = validated_data.pop("vehicle_info", None);
+        
+        if vehicle_info_obj:
+    
+            vehicle_info, _ = Vehicle_Info.objects.get_or_create(**vehicle_info_obj)
+            
+            for key, value in vehicle_info_obj.items():
+                setattr(instance, key, value)
+            
+            instance.vehicle_info = vehicle_info
+            
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+            
+        instance.save();
+        return instance;
+        
 
 
 class VehicleOrderSerializer(serializers.ModelSerializer):
