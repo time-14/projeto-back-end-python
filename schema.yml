@@ -1,0 +1,738 @@
+openapi: 3.0.3
+info:
+  title: Kenzie Motors
+  version: 1.0.0
+paths:
+  /api/users/:
+    get:
+      operationId: users_list
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: users_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/users/{user_id}/:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_update
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: users_partial_update
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: users_destroy
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/users/login/:
+    post:
+      operationId: users_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/vehicles/:
+    get:
+      operationId: vehicles_list
+      tags:
+      - vehicles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicle'
+          description: ''
+    post:
+      operationId: vehicles_create
+      tags:
+      - vehicles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+  /api/vehicles/{order_id}/orders/:
+    get:
+      operationId: vehicles_orders_retrieve
+      parameters:
+      - in: path
+        name: order_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - vehicles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleOrder'
+          description: ''
+    put:
+      operationId: vehicles_orders_update
+      parameters:
+      - in: path
+        name: order_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - vehicles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VehicleOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VehicleOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleOrder'
+          description: ''
+    patch:
+      operationId: vehicles_orders_partial_update
+      parameters:
+      - in: path
+        name: order_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - vehicles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicleOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicleOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicleOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleOrder'
+          description: ''
+  /api/vehicles/{vehicle_id}/:
+    get:
+      operationId: vehicles_retrieve
+      parameters:
+      - in: path
+        name: vehicle_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vehicles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    put:
+      operationId: vehicles_update
+      parameters:
+      - in: path
+        name: vehicle_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vehicles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    patch:
+      operationId: vehicles_partial_update
+      parameters:
+      - in: path
+        name: vehicle_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vehicles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicle'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicle'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedVehicle'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+          description: ''
+    delete:
+      operationId: vehicles_destroy
+      parameters:
+      - in: path
+        name: vehicle_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vehicles
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/vehicles/{vehicle_id}/orders/:
+    post:
+      operationId: vehicles_orders_create
+      parameters:
+      - in: path
+        name: vehicle_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - vehicles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VehicleOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VehicleOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleOrder'
+          description: ''
+components:
+  schemas:
+    AddressSerialiazer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        state:
+          type: string
+          maxLength: 50
+        city:
+          type: string
+          maxLength: 50
+        street:
+          type: string
+          maxLength: 127
+        zip_code:
+          type: string
+          maxLength: 8
+        number:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        complement:
+          type: string
+          maxLength: 127
+      required:
+      - city
+      - complement
+      - id
+      - state
+      - street
+      - zip_code
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 50
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        username:
+          type: string
+          maxLength: 250
+        address:
+          $ref: '#/components/schemas/AddressSerialiazer'
+    PatchedVehicle:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        brand:
+          type: string
+          maxLength: 50
+        model:
+          type: string
+          maxLength: 50
+        year:
+          type: string
+          maxLength: 4
+        owner_id:
+          type: string
+          format: uuid
+          readOnly: true
+        unique_owner:
+          type: boolean
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        mileage:
+          type: string
+          maxLength: 8
+        description:
+          type: string
+          nullable: true
+          maxLength: 256
+        vehicle_info:
+          $ref: '#/components/schemas/VehicleInfo'
+    PatchedVehicleOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          default: pendente
+        buyer:
+          type: string
+          readOnly: true
+        owner:
+          type: string
+          readOnly: true
+    StatusEnum:
+      enum:
+      - pendente
+      - vendido
+      - cancelado
+      type: string
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 50
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        username:
+          type: string
+          maxLength: 250
+        address:
+          $ref: '#/components/schemas/AddressSerialiazer'
+      required:
+      - address
+      - email
+      - id
+      - last_name
+      - password
+      - username
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        brand:
+          type: string
+          maxLength: 50
+        model:
+          type: string
+          maxLength: 50
+        year:
+          type: string
+          maxLength: 4
+        owner_id:
+          type: string
+          format: uuid
+          readOnly: true
+        unique_owner:
+          type: boolean
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        mileage:
+          type: string
+          maxLength: 8
+        description:
+          type: string
+          nullable: true
+          maxLength: 256
+        vehicle_info:
+          $ref: '#/components/schemas/VehicleInfo'
+      required:
+      - brand
+      - id
+      - mileage
+      - model
+      - owner_id
+      - price
+      - vehicle_info
+      - year
+    VehicleInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        engine:
+          type: string
+          maxLength: 50
+        transmission:
+          type: string
+          maxLength: 50
+        doors:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        seats:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        color:
+          type: string
+          maxLength: 50
+        vehicle_type:
+          type: string
+          maxLength: 50
+        gas_type:
+          type: string
+          maxLength: 50
+        revisions:
+          type: boolean
+        last_maintance:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - color
+      - doors
+      - engine
+      - gas_type
+      - id
+      - seats
+      - transmission
+      - vehicle_type
+    VehicleOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          default: pendente
+        buyer:
+          type: string
+          readOnly: true
+        owner:
+          type: string
+          readOnly: true
+      required:
+      - buyer
+      - createdAt
+      - id
+      - owner
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
