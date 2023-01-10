@@ -4,6 +4,8 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from users.models import User
+
 from .models import Vehicle, VehicleOrder
 from .permisions import IsVehicleOwner
 from .serializers import VehicleOrderSerializer, VehicleSerializer
@@ -44,7 +46,9 @@ class VehicleOrderView(generics.CreateAPIView):
         
         vehicle_obj = get_object_or_404(Vehicle, id=self.kwargs.get("vehicle_id"))
 
-        serializer.save(owner=vehicle_obj, buyer=self.request.user)
+        user_obj = get_object_or_404(User, id=(vehicle_obj.owner_id))
+        
+        serializer.save(owner=user_obj, buyer=self.request.user)
     
 
 

@@ -31,7 +31,7 @@ class StatusVehicleOrder(models.TextChoices):
 
 
 class VehicleOrder(models.Model):
-    owner = models.ForeignKey("vehicles.Vehicle", on_delete=models.CASCADE,related_name="owner_order")
+    owner = models.ForeignKey("users.User", on_delete=models.CASCADE,related_name="owner_order")
     buyer = models.ForeignKey("users.User", on_delete=models.CASCADE,related_name="buyer_order")
     createdAt = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20,choices=StatusVehicleOrder.choices, default=StatusVehicleOrder.pendente)
