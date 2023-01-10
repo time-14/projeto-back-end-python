@@ -14,7 +14,7 @@ class VehicleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model= Vehicle
-        fields = ["id", "brand", "model", "year", "owner_id" ,"unique_owner", "price", "mileage", "description", "vehicle_info"]
+        fields = ["id", "brand", "model", "year", "owner_id" ,"unique_owner", "price", "mileage", "description", "vehicle_image", "vehicle_info"]
 
     def create(self, validated_data):
         vehicle_info_dict = validated_data.pop("vehicle_info")
@@ -57,11 +57,10 @@ class VehicleOrderSerializer(serializers.ModelSerializer):
 
 
     def get_buyer(self, obj):
-        return obj.buyer.first_name
+        return f'{obj.buyer.first_name} {obj.buyer.last_name}'
 
     def get_owner(self, obj):
-
-        return obj.owner.owner_id
+        return f'{obj.owner.first_name} {obj.owner.last_name}'
 
 
     def create(self, validated_data: dict) -> VehicleOrder:

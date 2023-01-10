@@ -12,6 +12,7 @@ class Vehicle(models.Model):
     price = models.PositiveIntegerField()
     mileage = models.CharField(max_length=8)
     description = models.CharField(max_length=256, null=True, default=None)
+    vehicle_image = models.CharField(max_length=5000)
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
